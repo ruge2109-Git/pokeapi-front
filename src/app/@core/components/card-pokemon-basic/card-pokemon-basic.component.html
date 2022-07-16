@@ -1,0 +1,22 @@
+<div class="card h-100 p-2 {{pokemon.type[0]}}">
+  <p class="txtPokemon">{{pokemon.name}}</p>
+  <img [src]="pokemon.urlImage" [alt]="pokemon.name" class="imgPokemon">
+  <div class="boxType">
+    <p class="txtType" *ngFor="let types of pokemon.type">{{types}}</p>
+  </div>
+  <div class="boxInfo">
+    <ul>
+      <li class="txtItemLi"><b>Weight:</b> {{pokemon.weight}}</li>
+      <li>
+        <div class="row">
+          <div class="col-4">
+            <b class="txtItemLi">Abilities</b>
+          </div>
+          <div class="col">
+            <p *ngFor="let ability of pokemon.abilities" class="txtAbilitie">{{ability}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

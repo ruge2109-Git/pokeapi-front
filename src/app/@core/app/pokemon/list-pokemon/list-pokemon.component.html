@@ -1,0 +1,27 @@
+<div class="boxHeader">
+  <h1 class="txtHeader animate__animated animate__fadeIn">
+    Manage your pokemons from this incredible tool
+    <small class="txtTitleBrand">POKESTATIKS</small>
+  </h1>
+</div>
+
+<div class="row p-2 container container-fluid m-auto">
+  <div class="col-12 col-md-6 col-lg-3 p-3" *ngFor="let pokemon of responseData?.data">
+    <app-card-pokemon-basic class="animate__animated animate__fadeIn" [pokemon]="pokemon"></app-card-pokemon-basic>
+  </div>
+
+  <div class="pagination-wrapper animate__animated animate__fadeIn">
+    <div class="pagination">
+      <a class="prev page-numbers" *ngIf="currentPage == 1">prev</a>
+      <a class="prev page-numbers" *ngIf="currentPage > 1" (click)="getListPokemon(currentPage - 1 ,8 ,8 * (currentPage - 2))">prev</a>
+      <ng-container *ngFor="let page of listPages">
+        <a *ngIf="!page.active" class="page-numbers" (click)="getListPokemon(page.index,page.limit,page.offset)">{{page.index}}</a>
+        <a *ngIf="page.active" class="page-numbers current">{{page.index}}</a>
+      </ng-container>
+
+      <a class="prev page-numbers" *ngIf="currentPage == cantPagesTotal">next</a>
+      <a class="prev page-numbers" *ngIf="currentPage < cantPagesTotal" (click)="getListPokemon(currentPage + 1 ,8 ,8 * (currentPage + 2))">next</a>
+    </div>
+  </div>
+
+</div>
