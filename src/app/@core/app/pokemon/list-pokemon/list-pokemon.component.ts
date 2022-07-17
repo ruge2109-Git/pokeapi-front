@@ -10,40 +10,92 @@ import { ApiResponse, ItemPage, PokemonInfoBasic } from 'src/app/@core/models/Re
 export class ListPokemonComponent implements OnInit {
 
   responseData?: ApiResponse<PokemonInfoBasic>;
+  responseAllData?: ApiResponse<PokemonInfoBasic>;
+  responseDataTypes?: ApiResponse<string>;
   listPages: ItemPage[] = [];
-  currentPage:number = 1;
+  currentPage: number = 1;
   cantPagesTotal: number = 1;
+  currentType: string = "clean";
+
+  spinnerFirstTime: boolean = false;
+  spinnerLoadData: boolean = false;
+
+  showListPokemonsFilter: boolean = false;
+
 
   constructor(private _modyoPokemoService: ModyoPokeApiService) { }
 
   ngOnInit(): void {
+    this.spinnerFirstTime = true;
     this.getListPokemon(this.currentPage, 8, 0);
+    this.getAllTypes();
   }
 
-  getListPokemon(indexPage: number, limit: number, offset: number) {
-
-    this._modyoPokemoService.getListPokemon(limit, offset).subscribe({
+  getAllTypes() {
+    this._modyoPokemoService.getListTypes().subscribe({
       next: (data) => {
-        this.responseData = data;
-        if (!this.responseData.brta) {
+        this.responseDataTypes = data;
+        if (!this.responseDataTypes.brta) {
           return;
         }
-        this.cantPagesTotal = Math.ceil(this.responseData!.cantData / 8);
-        this.initPaginator(indexPage);
       },
       error: (err) => {
       },
     })
   }
 
-  initPaginator(indexPage: number) {
+  getListPokemon(indexPage: number, limit: number, offset: number) {
+    this.spinnerLoadData = true;
+    this.currentType = 'clean';
+    this.showListPokemonsFilter = false;
+
+    this._modyoPokemoService.getListPokemon(limit, offset).subscribe({
+      next: (data) => {
+        this.spinnerFirstTime = false;
+        this.spinnerLoadData = false;
+        this.responseData = data;
+        if (!this.responseData.brta) {
+          return;
+        }
+        this.cantPagesTotal = Math.ceil(this.responseData!.cantData / 8);
+        this.initPaginator(indexPage, this.cantPagesTotal);
+      },
+      error: (err) => {
+        this.spinnerLoadData = false;
+        this.spinnerFirstTime = false;
+      },
+    })
+  }
+
+  getListPokemonFromType(limit: number, offset: number, indexPage: number, type: string) {
+    this.showListPokemonsFilter = true;
+    this.spinnerLoadData = true;
+    this.currentType = type;
+
+    this._modyoPokemoService.getListPokemonFromType(limit, offset, type).subscribe({
+      next: (data) => {
+        this.spinnerFirstTime = false;
+        this.spinnerLoadData = false;
+        this.responseData = data;
+        if (!this.responseData.brta) {
+          return;
+        }
+
+        this.cantPagesTotal = Math.ceil(this.responseData!.cantData / 8);
+        this.initPaginator(indexPage, this.cantPagesTotal);
+      },
+      error: (err) => {
+        this.spinnerLoadData = false;
+        this.spinnerFirstTime = false;
+      },
+    })
+  }
+
+  initPaginator(indexPage: number, cantPages: number) {
     this.currentPage = indexPage;
     this.listPages = [];
-    let cantPages = Math.ceil(this.responseData!.cantData / 8);
-    let incrementLimit = 8;
     let incrementOffset = 0;
     for (let i = 0; i < cantPages; i++) {
-      incrementLimit = 8 * (i + 1);
       this.listPages.push({
         index: (i + 1),
         limit: 8,

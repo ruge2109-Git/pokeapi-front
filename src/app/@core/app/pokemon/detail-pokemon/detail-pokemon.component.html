@@ -1,1 +1,113 @@
-<p>detail-pokemon works!</p>
+<div class="boxHeader" *ngIf="!responseData">
+  <h1 class="txtHeader animate__animated animate__fadeIn">
+    {{namePokemon}}
+  </h1>
+</div>
+<div class="boxHeader" *ngIf="responseData">
+  <h1 class="txtHeader animate__animated animate__fadeIn">
+    {{namePokemon}}
+  </h1>
+  <img class="animate__animated animate__fadeIn" [src]="responseData!.sprites.other.dream_world.front_default" alt="">
+</div>
+
+<div class="boxSpinner" *ngIf="spinnerLoadData">
+  <app-spinner></app-spinner>
+</div>
+
+
+
+<div class="p-2 container container-fluid m-auto animate__animated animate__fadeIn" *ngIf="responseData && !spinnerLoadData">
+  <div class="card p-4">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="cardStats">
+          <div class="row">
+            <div class="col-3">
+              <h5>Name:</h5>
+            </div>
+            <div class="col-9">
+              <p class="txtNamePoke"> {{responseData.name}}</p>
+              <p class="txtDescPoke">{{responseData.description}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <h5>Weight:</h5>
+            </div>
+            <div class="col-9">{{responseData.weight / 10 }} Kg</div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <h5>Height:</h5>
+            </div>
+            <div class="col-9">{{responseData.height / 10 }} m</div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <h5>Types:</h5>
+            </div>
+            <div class="col">
+              <div class="row align-items-center w-100 h-100">
+                <div class="col-6 col-md-3 col-lg-3" *ngFor="let type of responseData?.types">
+                  <p class="btnFilter {{type.type.name}}">{{type.type.name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <h5>Abilities:</h5>
+            </div>
+            <div class="col">
+              <ul class="listSkill">
+                <li class="txtSkill" *ngFor="let item of responseData?.abilities">
+                  {{item.ability.name}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="cardStats">
+          <h4 class="container">Stats</h4>
+          <div class="container" *ngFor="let item of responseData!.stats">
+            <div class="row">
+              <div class="col-4">
+                <p class="txtStat">{{item.stat.name}}</p>
+              </div>
+              <div class="col">
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" [style.width.%]="item.base_stat" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="cardStats mt-4">
+      <div class="row ">
+        <h5>Evolutions</h5>
+        <div class="col-4 p-3" *ngFor="let item of responseData.evolutions">
+          <app-card-pokemon-basic [pokemon]="item"></app-card-pokemon-basic>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+<div class="row p-2 container container-fluid m-auto animate__animated animate__fadeIn" *ngIf="!responseData && !spinnerLoadData">
+  <div class="col boxNoData">
+    <h1 class="txtNoData">At this moment we are presenting inconveniences to display the information</h1>
+  </div>
+  <div class="col">
+    <img src="./assets/img/No_data.jpg" alt="No data image" class="imgNoData">
+  </div>
+</div>

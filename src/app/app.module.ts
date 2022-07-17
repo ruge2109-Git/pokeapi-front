@@ -10,6 +10,7 @@ import { DetailPokemonComponent } from './@core/app/pokemon/detail-pokemon/detai
 import { HeaderComponent } from './@core/components/header/header.component';
 import { CardPokemonBasicComponent } from './@core/components/card-pokemon-basic/card-pokemon-basic.component';
 import { FooterComponent } from './@core/components/footer/footer.component';
+import { SpinnerComponent } from './@core/components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FooterComponent } from './@core/components/footer/footer.component';
     DetailPokemonComponent,
     HeaderComponent,
     CardPokemonBasicComponent,
-    FooterComponent
+    FooterComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

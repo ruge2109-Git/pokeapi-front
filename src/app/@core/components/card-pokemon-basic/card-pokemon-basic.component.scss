@@ -1,4 +1,4 @@
-.txtPokemon{
+.txtPokemon {
   font-size: 35px;
   font-weight: bold;
   text-align: center;
@@ -6,7 +6,8 @@
   margin: 0%;
   text-transform: capitalize;
 }
-.imgPokemon{
+
+.imgPokemon {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -14,19 +15,24 @@
   height: 150px;
 }
 
-.card{
+.card {
   border-radius: 50px;
   border: none;
+  cursor: pointer;
 }
 
-.boxType{
+.card:hover {
+  background: #151f38;
+}
+
+.boxType {
   display: inline-flex;
   justify-content: center;
   margin-top: 4%;
   margin-bottom: 4%;
 }
 
-.txtType{
+.txtType {
   padding: 2%;
   color: #fff;
   font-size: 20px;
@@ -40,16 +46,21 @@
   margin: 6px;
 }
 
-ul{
+.txtType:hover {
+  cursor: pointer;
+  background: rgb(0 0 0 / 50%);
+}
+
+ul {
   list-style: none;
 }
 
-.txtAbilitie{
+.txtAbilitie {
   margin: 0%;
   text-transform: capitalize;
   color: #fff;
 }
 
-.txtItemLi{
+.txtItemLi {
   color: #fff;
 }

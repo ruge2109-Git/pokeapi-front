@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { PokemonInfoBasic } from '../../models/Response';
 
 @Component({
@@ -9,10 +10,19 @@ import { PokemonInfoBasic } from '../../models/Response';
 export class CardPokemonBasicComponent implements OnInit {
 
   @Input() pokemon!: PokemonInfoBasic;
+  @Output() typePokemon = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(private _router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  sendType(value: string) {
+    this.typePokemon.emit(value);
+  }
+
+  navigateToDetail() {
+    this._router.navigate(['/',this.pokemon.name]);
   }
 
 }

@@ -35,13 +35,63 @@
   font-weight: bold;
 }
 
+.imgNoData {
+  width: 100%;
+}
+
+.boxNoData {
+  display: table;
+  width: 100%;
+  text-align: center;
+}
+
+.boxSpinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.txtNoData {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.btnFilter,
+.btnClear {
+  color: #fff;
+  font-weight: bold;
+  background-color: #151f388a;
+  border: none;
+}
+
+.btnFilter {
+  margin: 3%;
+  padding: 6%;
+  width: 100%;
+}
+
+.btnClear {
+  display: block;
+  margin: auto;
+}
+
+.btnFilter:hover,
+.btnClear:hover {
+  background-color: #151f38;
+}
+
+.btnFilter:active,.btnFilter:focus,.currentBtnFilter{
+  background-color: #151f38;
+  box-shadow: none;
+}
+
 @media screen and (max-width:550px) {
-  .boxHeader{
+  .boxHeader {
     height: auto;
     line-height: normal;
     padding: 4%;
   }
-  .txtHeader{
+  .txtHeader {
     width: auto;
     padding: 10px;
     font-size: 2rem;

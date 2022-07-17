@@ -5,23 +5,76 @@
   </h1>
 </div>
 
-<div class="row p-2 container container-fluid m-auto">
-  <div class="col-12 col-md-6 col-lg-3 p-3" *ngFor="let pokemon of responseData?.data">
-    <app-card-pokemon-basic class="animate__animated animate__fadeIn" [pokemon]="pokemon"></app-card-pokemon-basic>
+<div class="boxSpinner" *ngIf="spinnerFirstTime">
+  <app-spinner></app-spinner>
+</div>
+
+<div class="row p-2 container container-fluid m-auto" *ngIf="!responseData && !spinnerFirstTime">
+  <div class="col boxNoData">
+    <h1 class="txtNoData">At this moment we are presenting inconveniences to display the information</h1>
   </div>
+  <div class="col">
+    <img src="./assets/img/No_data.jpg" alt="No data image" class="imgNoData">
+  </div>
+</div>
 
-  <div class="pagination-wrapper animate__animated animate__fadeIn">
-    <div class="pagination">
-      <a class="prev page-numbers" *ngIf="currentPage == 1">prev</a>
-      <a class="prev page-numbers" *ngIf="currentPage > 1" (click)="getListPokemon(currentPage - 1 ,8 ,8 * (currentPage - 2))">prev</a>
-      <ng-container *ngFor="let page of listPages">
-        <a *ngIf="!page.active" class="page-numbers" (click)="getListPokemon(page.index,page.limit,page.offset)">{{page.index}}</a>
-        <a *ngIf="page.active" class="page-numbers current">{{page.index}}</a>
-      </ng-container>
 
-      <a class="prev page-numbers" *ngIf="currentPage == cantPagesTotal">next</a>
-      <a class="prev page-numbers" *ngIf="currentPage < cantPagesTotal" (click)="getListPokemon(currentPage + 1 ,8 ,8 * (currentPage + 2))">next</a>
+<div class="p-2 container container-fluid m-auto" *ngIf="responseData">
+
+  <ng-container *ngIf="!spinnerLoadData">
+
+    <h1>Filter by Type</h1>
+
+    <div class="row">
+      <div class="col-6 col-md-2 col-lg-1" *ngFor="let type of responseDataTypes?.data">
+        <button type="button" class="btn btnFilter" [ngClass]="{'currentBtnFilter': currentType == type}" (click)="getListPokemonFromType(0,8,1,type)">{{type}}</button>
+      </div>
     </div>
-  </div>
+    <button type="button" class="btn btnClear w-auto" [ngClass]="{'currentBtnFilter': currentType == 'clean'}" (click)="getListPokemon(1,8,0)">Clear filter</button>
+
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-3 p-3" *ngFor="let pokemon of responseData?.data">
+        <app-card-pokemon-basic class="animate__animated animate__fadeIn" [pokemon]="pokemon" (typePokemon)="getListPokemonFromType(0,8,1,$event)"></app-card-pokemon-basic>
+      </div>
+
+      <div class="pagination-wrapper animate__animated animate__fadeIn">
+        <div class="pagination">
+          <a class="prev page-numbers" *ngIf="currentPage == 1">prev</a>
+          <a class="prev page-numbers" *ngIf="currentPage > 1 && !showListPokemonsFilter" (click)="getListPokemon(currentPage - 1 ,8 ,8 * (currentPage - 2))">prev</a>
+          <a class="prev page-numbers" *ngIf="currentPage > 1 && showListPokemonsFilter" (click)="getListPokemonFromType(0,8,  currentPage - 1 ,currentType)">prev</a>
+          <ng-container *ngFor="let page of listPages">
+            <a *ngIf="!page.active && !showListPokemonsFilter" class="page-numbers" (click)="getListPokemon(page.index,page.limit,page.offset)">{{page.index}}</a>
+            <a *ngIf="!page.active && showListPokemonsFilter" class="page-numbers" (click)="getListPokemonFromType(8 * (page.index - 1),(8 * page.index),page.index,currentType)">{{page.index}}</a>
+            <a *ngIf="page.active" class="page-numbers current">{{page.index}}</a>
+          </ng-container>
+
+          <a class="prev page-numbers" *ngIf="currentPage == cantPagesTotal">next</a>
+          <a class="prev page-numbers" *ngIf="currentPage < cantPagesTotal && !showListPokemonsFilter" (click)="getListPokemon(currentPage + 1 ,8 ,8 * (currentPage ))">next</a>
+          <a class="prev page-numbers" *ngIf="currentPage < cantPagesTotal && showListPokemonsFilter" (click)="getListPokemonFromType(8 * (currentPage ),(8 * (currentPage + 1)),currentPage + 1 ,currentType)">next</a>
+        </div>
+      </div>
+    </div>
+
+
+  </ng-container>
+
+  <ng-container *ngIf="spinnerLoadData">
+    <div class="boxSpinner">
+      <app-spinner></app-spinner>
+    </div>
+    <div class="pagination-wrapper animate__animated animate__fadeIn">
+      <div class="pagination">
+        <a class="prev page-numbers">prev</a>
+        <ng-container *ngFor="let page of listPages">
+          <a *ngIf="!page.active" class="page-numbers">{{page.index}}</a>
+          <a *ngIf="page.active" class="page-numbers current">{{page.index}}</a>
+        </ng-container>
+
+        <a class="prev page-numbers">next</a>
+      </div>
+    </div>
+  </ng-container>
+
+
 
 </div>
