@@ -7,7 +7,7 @@
   <h1 class="txtHeader animate__animated animate__fadeIn">
     {{namePokemon}}
   </h1>
-  <img class="animate__animated animate__fadeIn" [src]="responseData!.sprites.other.dream_world.front_default" alt="">
+  <img class="animate__animated animate__fadeIn imgPke" [src]="responseData!.sprites.other.dream_world.front_default" alt="">
 </div>
 
 <div class="boxSpinner" *ngIf="spinnerLoadData">
@@ -22,31 +22,31 @@
       <div class="col-12 col-md-6">
         <div class="cardStats">
           <div class="row">
-            <div class="col-3">
+            <div class="col-5 col-sm-4 col-md-3">
               <h5>Name:</h5>
             </div>
-            <div class="col-9">
+            <div class="col-7 col-sm-8 col-md-9">
               <p class="txtNamePoke"> {{responseData.name}}</p>
               <p class="txtDescPoke">{{responseData.description}}</p>
             </div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-5 col-sm-4 col-md-3">
               <h5>Weight:</h5>
             </div>
-            <div class="col-9">{{responseData.weight / 10 }} Kg</div>
+            <div class="col-7 col-sm-8 col-md-9">{{responseData.weight / 10 }} Kg</div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-5 col-sm-4 col-md-3">
               <h5>Height:</h5>
             </div>
-            <div class="col-9">{{responseData.height / 10 }} m</div>
+            <div class="col-7 col-sm-8 col-md-9">{{responseData.height / 10 }} m</div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-5 col-sm-4 col-md-3">
               <h5>Types:</h5>
             </div>
-            <div class="col">
+            <div class="col-7 col-sm-8 col-md-9">
               <div class="row align-items-center w-100 h-100">
                 <div class="col-6 col-md-3 col-lg-3" *ngFor="let type of responseData?.types">
                   <p class="btnFilter {{type.type.name}}">{{type.type.name}}</p>
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-5 col-sm-4 col-md-3">
               <h5>Abilities:</h5>
             </div>
             <div class="col">
@@ -91,7 +91,7 @@
     <div class="cardStats mt-4">
       <div class="row ">
         <h5>Evolutions</h5>
-        <div class="col-4 p-3" *ngFor="let item of responseData.evolutions">
+        <div class="col-12 col-md-6 col-lg-4 p-3 mt-2" *ngFor="let item of responseData.evolutions">
           <app-card-pokemon-basic [pokemon]="item"></app-card-pokemon-basic>
         </div>
       </div>
